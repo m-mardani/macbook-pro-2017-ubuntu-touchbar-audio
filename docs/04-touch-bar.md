@@ -161,7 +161,7 @@ The installer writes four things, in this order:
 
 **Never set `skip_acpi_power=0`.** The ACPI call it skips hard-freezes these models; only the power button gets you out.
 
-Upstream says a reboot is needed before the driver binds, because generic HID drivers already hold the device on a running system. On my machine it bound immediately, a few minutes after the restore had booted the T1, although `hid-generic` had claimed the T1's HID interfaces by then. I cannot say whether that is repeatable. If your bar stays dark after the install, reboot once before you look for another cause.
+Upstream says a reboot is needed before the driver binds, because generic HID drivers already hold the device on a running system. On my machine it bound immediately, within about a minute of the restore finishing, although `hid-generic` and `hid-sensor-hub` had claimed the T1's HID interfaces by then. I cannot say whether that is repeatable. If your bar stays dark after the install, reboot once before you look for another cause.
 
 Check:
 
