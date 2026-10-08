@@ -31,6 +31,7 @@ What was actually done on one machine, in order, with the numbers. The guide pag
 | 8 | Fn fix | Holding Fn did not switch the bar; `keyd` was holding the keyboard | `keyd` disabled; Fn shows F1–F12 |
 | 9 | Persistence | DKMS autoinstall checked; fallback kernel protected from `autoremove`; firmware and configs copied | — |
 | 10 | Clean-up | Caps Lock = Esc removed again | Keys back to normal |
+| 11 | Cold power-on test (2026-10-09) | Full power-off, then power-on | Touch Bar works: the firmware loads the restored files by itself |
 
 ## Choices
 
@@ -99,7 +100,8 @@ No step was retried. Preflight: 23 ok, 2 "NO" (Arch-only package check; false po
 
 ## Still open
 
-- Reboot and cold power-on with the restored firmware ([README](../README.md#verification-status--read-this)).
+- Sound and the login-screen layout after a boot: not separately confirmed ([README](../README.md#verification-status)). The cold power-on test for the Touch Bar has passed.
+- A kernel update with both DKMS drivers installed.
 - Headphone jack with headphones; microphone by ear; audio over HDMI/DP; Bluetooth with a real device; Touch ID; suspend.
 - Whether the driver's "binds without a reboot" behaviour is repeatable.
 

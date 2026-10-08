@@ -38,16 +38,18 @@ If you see `05ac:1281` and no `EFI/APPLE`, this guide is for you. Why that happe
 | Touch ID | not working | not attempted | — |
 | Suspend / resume | untested | untested, auto-suspend disabled | — |
 
-### Verification status — read this
+### Verification status
 
-Everything in the table was verified **in the running session in which it was set up**. The audio driver was activated by reloading modules and the Touch Bar driver bound live. **No reboot and no cold power-on had been done when this was written.** Persistence was checked by inspection only (DKMS autoinstall, `modules-load.d`, udev rules, files on the EFI partition).
+The table above was first verified in the running session in which everything was set up: the audio driver was activated by reloading modules and the Touch Bar driver bound live.
 
-That matters most for the Touch Bar: one other MacBookPro14,3 has a correct file set that its firmware does not load at power-on ([t1-revive issue #7](https://github.com/niconistal/t1-revive/issues/7)). The test and what to record are in [docs/04-touch-bar.md](docs/04-touch-bar.md#7-the-cold-boot-test). `scripts/check.sh` prints the facts after a boot.
+The machine has since been through a **full power-off and power-on (2026-10-09), and the Touch Bar works afterwards.** That is the test that matters most. One other MacBookPro14,3 has a correct file set that its firmware does not load at power-on ([t1-revive issue #7](https://github.com/niconistal/t1-revive/issues/7)); on this machine the firmware loads the restored files by itself. The test is described in [docs/04-touch-bar.md](docs/04-touch-bar.md#7-the-cold-boot-test), and `scripts/check.sh` prints the facts after a boot.
 
 | Test | Result |
 |---|---|
-| Reboot: sound, Touch Bar, login screen on the external monitor | not yet tested |
-| Cold power-on (off, wait 20 s, on): T1 comes up as `05ac:8600` by itself | not yet tested |
+| Cold power-on (full power-off, then on): Touch Bar comes up by itself | **passed** — checked by use; `lsusb` output not recorded |
+| Sound after a boot | not separately confirmed |
+| Login screen layout after a boot (`eDP-1` off at the greeter) | not separately confirmed |
+| A kernel update with both DKMS drivers installed | has not happened yet |
 
 ## The short version
 
@@ -94,7 +96,7 @@ The Touch Bar part should apply to MacBookPro13,2 / 13,3 / 14,2 as well (same T1
 
 ## Open items
 
-- **Reboot and cold boot** — see [Verification status](#verification-status--read-this).
+- **Sound and the login-screen layout after a boot** — not separately confirmed; see [Verification status](#verification-status).
 - **Touch ID** — not attempted. [t1bridge](https://github.com/standardagents/t1bridge) reports Touch ID on T1 Macs and ships Arch packages; I used the `apple-ib-drv` fork instead and have not tried t1bridge on Ubuntu.
 - **Suspend / resume** — untested, and deliberately disabled on this machine.
 - **Headphones, HDMI/DP audio, microphone by ear** — not confirmed.

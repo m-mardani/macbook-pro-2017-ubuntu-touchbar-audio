@@ -170,7 +170,7 @@ If holding Fn does nothing, a key remapper is in the way: see [05](05-keyboard-w
 
 ## 7. The cold-boot test
 
-Everything above was observed in one running session. What it does not prove is that the Mac's firmware loads the staged files **by itself at power-on**. On one other MacBookPro14,3 it does not ([issue #7](https://github.com/niconistal/t1-revive/issues/7), open).
+Everything above happens in one running session. What it does not prove is that the Mac's firmware loads the staged files **by itself at power-on**. On one other MacBookPro14,3 it does not ([issue #7](https://github.com/niconistal/t1-revive/issues/7), open).
 
 Test:
 
@@ -190,7 +190,7 @@ bash scripts/check.sh            # from this repository
 | `05ac:8600`, bar dark | Firmware fine, driver not bound: see [08](08-troubleshooting.md). |
 | `05ac:1281` | The files were not loaded at power-on. Check that they are still on the EFI partition, then compare with issue #7. |
 
-**Result on this machine: not yet tested when this was written.**
+**Result on this machine (2026-10-09): passed.** After a full power-off and power-on the Touch Bar is lit and works, so the firmware loaded the restored files by itself. This was checked by use; I did not record the `lsusb` and `dmesg` output.
 
 ## 8. Back up the restored firmware — off this disk
 

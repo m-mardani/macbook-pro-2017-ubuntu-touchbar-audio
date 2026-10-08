@@ -16,7 +16,7 @@ Both fixes live outside the kernel, so they need a little attention when the ker
 | Fan control | `mbpfan` | `/etc/mbpfan.conf` | yes |
 | Remote access | `openssh-server` | `ssh.socket` | yes |
 
-"Survives" here means checked by inspection: both DKMS packages have `AUTOINSTALL=yes` and the kernel headers meta-package is installed. See the [verification status](../README.md#verification-status--read-this).
+"Survives" here means checked by inspection: both DKMS packages have `AUTOINSTALL=yes` and the kernel headers meta-package is installed. No kernel update has happened on this machine since. What has been tested is one full power cycle, after which the Touch Bar works; see the [verification status](../README.md#verification-status).
 
 ## After every kernel update
 

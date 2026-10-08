@@ -91,7 +91,7 @@ sudo install -m 0644 -o "$(sudo stat -c %u "$d")" -g "$(sudo stat -c %g "$d")" \
      ~/.config/monitors.xml "$d/monitors.xml"
 ```
 
-It takes effect the next time the login screen starts. **Not yet verified across a reboot on my machine.**
+It takes effect the next time the login screen starts. The machine has been power-cycled since, but whether `eDP-1` is really off at the login screen has not been confirmed separately.
 
 ### The kernel option I did not use
 
