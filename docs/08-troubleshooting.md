@@ -26,7 +26,7 @@ Entries marked **(seen here)** happened on my machine. Entries marked **(upstrea
 | Symptom | Cause | Fix |
 |---|---|---|
 | Preflight: `NO package checks are implemented for Arch-based systems only` **(seen here)** | Expected on Ubuntu | Install the packages from [04, step 3](04-touch-bar.md#3-ubuntu-packages); the `kernel headers` and `acpi_call loaded` lines must say `ok` |
-| Preflight: `NO an older Touch Bar stack is still on this machine: udev /etc/udev/rules.d/39-usbmuxd.rules` **(seen here)** | False positive from the usbmuxd override, which still sets `bConfigurationValue` for iPhones | Harmless if `grep 8600` on that file prints nothing. The restore ran clean with the file in place. |
+| Preflight: `NO an older Touch Bar stack is still on this machine: udev /etc/udev/rules.d/39-usbmuxd.rules` **(seen here)** | False positive: the override sets `bConfigurationValue` for iPhones, and a comment in my copy mentioned "iBridge 05ac:8600". The check matches those words anywhere in the file. | Remove the comment, or ignore the line if `grep -v '^#' <file> \| grep 8600` prints nothing. The restore ran clean with the file in place. |
 | Preflight names a **different** file or a unit as "older Touch Bar stack" **(upstream, #10)** | A Touch Bar driver is already installed and pins the T1's USB configuration | Remove it for the duration of the restore: [04, step 9](04-touch-bar.md#9-if-you-ever-run-regenerate-again) |
 | `boot` step reaches `8600`, then hangs or fails with `code=5` **(upstream, #10)** | Same as above | Same, then `sudo bin/t1-revive regenerate --from boot` |
 | Stops at `reset-1` with exit 3 **(upstream, #4)** | `acpi_call` was not loaded at that moment | `sudo modprobe acpi_call`, check `/proc/acpi/call`, then `--from reset-1` |

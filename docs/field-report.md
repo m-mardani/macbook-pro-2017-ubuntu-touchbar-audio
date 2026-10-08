@@ -59,7 +59,7 @@ Both T1 projects were read before running: what they write as root, which ACPI m
 | handover (skipped, no t1bridge) | 0 |
 | **Total** | **295 (4 min 55 s)** |
 
-No step was retried. Preflight: 23 ok, 2 "NO" (Arch-only package check; false positive on the usbmuxd override).
+No step was retried. Preflight: 23 ok, 2 "NO" (the Arch-only package check, and a false positive caused by a comment in my usbmuxd override; see [04](04-touch-bar.md#what-preflight-says-on-ubuntu)).
 
 **Builds on kernel 7.0.0-38:**
 
@@ -88,7 +88,7 @@ No step was retried. Preflight: 23 ok, 2 "NO" (Arch-only package check; false po
 | The login-screen layout was first copied to `/var/lib/gdm3/.config/`, where GDM 50 no longer reads it. | Check where the running version keeps its files; older guides are wrong here. |
 | GNOME's "Keep changes?" dialog timed out and reverted the display change. | Useful, in the end: it proved that the monitor stays lit with `eDP-1` off before anything was made permanent. |
 | `xkb-options` changed in settings but not in the live keymap. | Verify with the compositor's own keymap, not with the setting. |
-| The usbmuxd override made t1-revive's preflight report an "older Touch Bar stack". | Read what a check actually tests before trusting or ignoring it. |
+| t1-revive's preflight reported an "older Touch Bar stack" for my usbmuxd override. I first blamed the iPhone rule in it; reading the check's source showed it was my own comment line mentioning "iBridge 05ac:8600". | Read what a check actually tests before trusting or ignoring it. |
 | `keyd`, installed to get F-keys, later stopped the Touch Bar from providing them. | Temporary workarounds need an owner and an end date. |
 | `apt autoremove` was one command away from deleting the only fallback kernel. | `apt-mark manual` the kernel you rely on. |
 

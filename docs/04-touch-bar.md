@@ -61,6 +61,11 @@ grep 8600 /etc/udev/rules.d/39-usbmuxd.rules      # must print nothing
 sudo udevadm control --reload
 ```
 
+Two details that are easy to get wrong:
+
+- **Do not add a comment to that file that mentions the T1** (`iBridge`, `05ac`, `8600`, `Touch Bar`). t1-revive's preflight will take the file for a Touch Bar driver rule; see step 5.
+- `t1-touchbar`'s README suggests `sudo sed -i '/05ac.*8600/d' /lib/udev/rules.d/39-usbmuxd.rules` instead. On Ubuntu 26.04.1 that pattern matches nothing, because the packaged rule spells the T1 as `5ac/8600` (no leading zero) inside a list of products. The `sed` above matches that spelling.
+
 t1-revive starts its own private `usbmuxd`, and its preflight checks that no system one is running. Switch the system service off for the duration of the restore:
 
 ```bash
@@ -80,10 +85,15 @@ sudo bin/t1-revive regenerate     # the restore; asks before it starts and again
 
 ### What preflight says on Ubuntu
 
-It ended with `23 ok, 2 problems` on my machine. Both "NO" lines are explainable:
+One "NO" line is expected on Ubuntu:
 
-1. `package checks are implemented for Arch-based systems only; make sure the equivalents of 'libzip libusb curl openssl readline dkms acpi_call-dkms' and the headers … are installed` — expected. Step 3 covers it; the lines below it (`kernel headers`, `acpi_call loaded`) must say `ok`.
-2. `an older Touch Bar stack is still on this machine: udev /etc/udev/rules.d/39-usbmuxd.rules` — a **false positive** caused by the override from step 4. The check looks for udev rules that pin the T1's USB configuration; the override still contains `ATTR{bConfigurationValue}="0"` for iPhones, and has no match for `8600`. If the `grep 8600` in step 4 printed nothing, this line is harmless.
+- `package checks are implemented for Arch-based systems only; make sure the equivalents of 'libzip libusb curl openssl readline dkms acpi_call-dkms' and the headers … are installed`. Step 3 covers it; the lines below it (`kernel headers`, `acpi_call loaded`) must say `ok`.
+
+My own run ended with `23 ok, 2 problems`. The second "NO" was self-inflicted:
+
+- `an older Touch Bar stack is still on this machine: udev /etc/udev/rules.d/39-usbmuxd.rules`. The check (`legacy_t1_stack` in t1-revive's `lib/discover.sh`) flags any file in `/etc/udev/rules.d` that contains `bConfigurationValue` and also matches `05ac`, `8600`, `ibridge` or `touch bar` anywhere in the file. The override sets `bConfigurationValue` for iPhones, and I had put a comment at the top of mine that said "T1 iBridge 05ac:8600 removed". The comment tripped the check; the file has no rule for the T1. The restore ran clean with the file in place.
+
+If you create the override exactly as in step 4, without such a comment, this line should not appear. I verified that by running the check's two `grep` tests against both variants of the file, not by a second restore.
 
 Any other "NO" is real: fix it before you continue.
 
